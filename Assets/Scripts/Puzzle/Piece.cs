@@ -12,9 +12,11 @@ namespace Puzzle
         private GraphicRaycaster raycaster;
         private EventSystem eventSystem;
         private PointerEventData eventData;
-
         private Transform target;
         private Vector2 velocity = Vector2.zero;
+        
+        [SerializeField] private Transform poolPosition;
+        [SerializeField] private Transform selectedPosition;
 
         [SerializeField] private Camera UICamera;
         [SerializeField] private float smoothTime;
@@ -32,8 +34,9 @@ namespace Puzzle
             {
                 OnClick();
             }
-            else
+            else if (target)
             {
+                target.SetParent(poolPosition);
                 velocity = Vector2.zero;
                 target = null;
             }
@@ -54,6 +57,7 @@ namespace Puzzle
             if (results.Count > 0)
             {
                 target = results[0].gameObject.transform;
+                target.SetParent(selectedPosition);
             }
         }
 
