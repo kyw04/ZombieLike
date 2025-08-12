@@ -14,13 +14,9 @@ namespace Puzzle
     [RequireComponent(typeof(GridLayoutGroup))]
     public class Board : MonoBehaviour
     {
-        [SerializeField] private List<PiecePosition> piecePosition = new List<PiecePosition>();
-        [SerializeField] private float radius;
-        private void Awake()
-        {
-            
-        }
-
+        public List<PiecePosition> piecePosition = new List<PiecePosition>();
+        public float radius;
+        
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;

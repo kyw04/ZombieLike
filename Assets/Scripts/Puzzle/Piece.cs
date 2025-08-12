@@ -14,7 +14,8 @@ namespace Puzzle
         private PointerEventData eventData;
         private Transform target;
         private Vector2 velocity = Vector2.zero;
-        
+
+        [SerializeField] private Board board;
         [SerializeField] private Transform poolPosition;
         [SerializeField] private Transform selectedPosition;
 
@@ -63,7 +64,25 @@ namespace Puzzle
 
         private void Move()
         {
-            target.position = Vector2.SmoothDamp(target.position, Mouse.current.position.ReadValue(), ref velocity, smoothTime);
+            Vector2 targetPosition = Mouse.current.position.ReadValue();
+            float maxDistance = board.radius;
+            bool isPlaced = false;
+            foreach (PiecePosition piecePosition in board.piecePosition)
+            {
+                float currentDistance = Vector2.Distance(piecePosition.pos.position, target.position);
+                if (currentDistance <= maxDistance)
+                {
+                    isPlaced = true;
+                    maxDistance = currentDistance;
+                    targetPosition = piecePosition.pos.position;
+                }
+            }
+
+            if (isPlaced && Vector2.Distance(targetPosition, Mouse.current.position.ReadValue()) >= board.radius)
+            {
+                targetPosition = Mouse.current.position.ReadValue();
+            }
+            target.position = Vector2.SmoothDamp(target.position, targetPosition, ref velocity, smoothTime);
         }
     }
 }

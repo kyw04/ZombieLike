@@ -666,7 +666,7 @@ MonoBehaviour:
     piece: {fileID: 629553310}
   - pos: {fileID: 1640120329}
     piece: {fileID: 2106189114}
-  radius: 100
+  radius: 125
 --- !u!222 &410486530
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -757,6 +757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d84cedc88aa9f4ba5aac80384aaf06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 410486529}
   poolPosition: {fileID: 2056643027}
   selectedPosition: {fileID: 1701101143}
   UICamera: {fileID: 1437773582}
