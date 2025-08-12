@@ -23,7 +23,6 @@ public class Mover : MonoBehaviour
     private void Move()
     {
         Vector2 direction = moveAction.ReadValue<Vector2>();
-        Debug.Log(direction);
         transform.Translate(direction * (speed * Time.deltaTime));
     }
 }
