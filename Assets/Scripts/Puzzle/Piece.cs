@@ -98,8 +98,12 @@ namespace Puzzle
                     closest.isPlaced = false;
                 }
             }
+
+            float currentSmoothTime = smoothTime;
+            if (maxDistance < board.radius)
+                currentSmoothTime = 0.05f;
             
-            target.position = Vector2.SmoothDamp(target.position, targetPosition, ref velocity, smoothTime);
+            target.position = Vector2.SmoothDamp(target.position, targetPosition, ref velocity, currentSmoothTime);
         }
     }
 }
