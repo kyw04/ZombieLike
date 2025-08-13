@@ -14,6 +14,7 @@ namespace Puzzle
         private PointerEventData eventData;
         private Transform target;
         private Vector2 velocity = Vector2.zero;
+        private PiecePosition closest;
 
         [SerializeField] private Board board;
         [SerializeField] private Transform poolPosition;
@@ -66,22 +67,38 @@ namespace Puzzle
         {
             Vector2 targetPosition = Mouse.current.position.ReadValue();
             float maxDistance = board.radius;
-            bool isPlaced = false;
+            
             foreach (PiecePosition piecePosition in board.piecePosition)
             {
-                float currentDistance = Vector2.Distance(piecePosition.pos.position, target.position);
-                if (currentDistance <= maxDistance)
+                float currentDistance = Vector2.Distance(piecePosition.pos.position, Mouse.current.position.ReadValue());
+                if ((!piecePosition.isPlaced || piecePosition.placedObj == target.gameObject) && currentDistance <= maxDistance)
                 {
-                    isPlaced = true;
+                    if (closest is { isPlaced: true } && closest != piecePosition && Vector2.Distance(target.position, closest.pos.position) <= 5f)
+                    {
+                        closest.placedObj = null;
+                        closest.isPlaced = false;
+                    }
+                    closest = piecePosition;
                     maxDistance = currentDistance;
                     targetPosition = piecePosition.pos.position;
                 }
             }
-
-            if (isPlaced && Vector2.Distance(targetPosition, Mouse.current.position.ReadValue()) >= board.radius)
+            
+            if (closest != null)
             {
-                targetPosition = Mouse.current.position.ReadValue();
+                if (!closest.isPlaced && Vector2.Distance(target.position, closest.pos.position) <= 5f)
+                {
+                    closest.placedObj = target.gameObject;
+                    closest.isPlaced = true;
+                }
+                
+                if (target.gameObject == closest.placedObj && Vector2.Distance(target.position, Mouse.current.position.ReadValue()) >= board.radius)
+                {
+                    closest.placedObj = null;
+                    closest.isPlaced = false;
+                }
             }
+            
             target.position = Vector2.SmoothDamp(target.position, targetPosition, ref velocity, smoothTime);
         }
     }

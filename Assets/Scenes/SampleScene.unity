@@ -650,22 +650,40 @@ MonoBehaviour:
   piecePosition:
   - pos: {fileID: 538449912}
     piece: {fileID: 931045695}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 518880750}
     piece: {fileID: 2037780515}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 1110437477}
     piece: {fileID: 1395326960}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 1103675179}
     piece: {fileID: 1890292569}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 700515488}
     piece: {fileID: 1682603420}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 1517346266}
     piece: {fileID: 940828206}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 1879993675}
     piece: {fileID: 932947196}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 304046019}
     piece: {fileID: 629553310}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   - pos: {fileID: 1640120329}
     piece: {fileID: 2106189114}
+    isPlaced: 0
+    placedObj: {fileID: 0}
   radius: 125
 --- !u!222 &410486530
 CanvasRenderer:
@@ -3461,7 +3479,7 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1437773579}
   - {fileID: 619394802}
+  - {fileID: 287808220}
   - {fileID: 106233122}
   - {fileID: 46533167}
-  - {fileID: 287808220}
   - {fileID: 1004034028}

@@ -33,21 +33,25 @@ namespace Puzzle
 
                 float prevLabelWidth = EditorGUIUtility.labelWidth;
 
-                // pos 필드
                 EditorGUIUtility.labelWidth = 50f;
                 SerializedProperty posProp = element.FindPropertyRelative("pos");
                 posProp.objectReferenceValue = EditorGUI.ObjectField(
-                    new Rect(rect.x + indexLabelWidth, rect.y, fieldWidth, EditorGUIUtility.singleLineHeight),
+                    new Rect(rect.x + indexLabelWidth, rect.y, fieldWidth - 25f, EditorGUIUtility.singleLineHeight),
                     new GUIContent("Position"),
                     posProp.objectReferenceValue,
                     typeof(Transform),
                     true
                 );
-               
-                // piece 필드
+                
+                EditorGUI.PropertyField(
+                    new Rect(rect.x + indexLabelWidth + fieldWidth - 20f, rect.y, 35f, EditorGUIUtility.singleLineHeight),
+                    element.FindPropertyRelative("isPlaced"),
+                    GUIContent.none
+                );
+                
                 EditorGUIUtility.labelWidth = 35f;
                 SerializedProperty pieceProp = element.FindPropertyRelative("piece");
-                var pieceRect = new Rect(rect.x + indexLabelWidth + fieldWidth + spacing, rect.y, fieldWidth - 40f, EditorGUIUtility.singleLineHeight);
+                var pieceRect = new Rect(rect.x + indexLabelWidth + fieldWidth, rect.y, fieldWidth - 40f, EditorGUIUtility.singleLineHeight);
                 pieceProp.objectReferenceValue = EditorGUI.ObjectField(
                     pieceRect,
                     new GUIContent("Piece"),
@@ -56,9 +60,6 @@ namespace Puzzle
                     true
                 );
                 
-                
-
-                // 썸네일 그리기
                 if (pieceProp.objectReferenceValue != null)
                 {
                     Image image = pieceProp.objectReferenceValue.GameObject().GetComponent<Image>();
@@ -95,6 +96,7 @@ namespace Puzzle
                 
                 element.FindPropertyRelative("pos").objectReferenceValue = null;
                 element.FindPropertyRelative("piece").objectReferenceValue = null;
+                element.FindPropertyRelative("isPlaced").boolValue = false;
             };
             reorderableList.elementHeight = 20.0f;
         }
