@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -13,7 +14,8 @@ namespace Puzzle
         private EventSystem eventSystem;
         private PointerEventData eventData;
         private Transform target;
-        private Vector2 velocity = Vector2.zero;
+        private Vector2 velocityPos = Vector2.zero;
+        private Vector3 velocityRot = Vector3.zero;
         private PiecePosition closest;
 
         [SerializeField] private Board board;
@@ -39,7 +41,8 @@ namespace Puzzle
             else if (target)
             {
                 target.SetParent(poolPosition);
-                velocity = Vector2.zero;
+                velocityPos = Vector2.zero;
+                velocityRot = Vector3.zero;
                 target = null;
             }
             
@@ -66,6 +69,7 @@ namespace Puzzle
         private void Move()
         {
             Vector2 targetPosition = Mouse.current.position.ReadValue();
+            Vector3 targetRotation = Vector3.zero;
             float maxDistance = board.radius;
             
             foreach (PiecePosition piecePosition in board.piecePosition)
@@ -81,6 +85,7 @@ namespace Puzzle
                     closest = piecePosition;
                     maxDistance = currentDistance;
                     targetPosition = piecePosition.pos.position;
+                    targetRotation = piecePosition.pos.rotation.eulerAngles;
                 }
             }
             
@@ -103,7 +108,8 @@ namespace Puzzle
             if (maxDistance < board.radius)
                 currentSmoothTime = 0.05f;
             
-            target.position = Vector2.SmoothDamp(target.position, targetPosition, ref velocity, currentSmoothTime);
+            target.position = Vector2.SmoothDamp(target.position, targetPosition, ref velocityPos, currentSmoothTime);
+            target.rotation = Quaternion.Euler(Vector3.SmoothDamp(target.rotation.eulerAngles, targetRotation, ref velocityRot, currentSmoothTime));
         }
     }
 }

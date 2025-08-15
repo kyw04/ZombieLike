@@ -13,7 +13,6 @@ namespace Puzzle
         public GameObject placedObj;
     }
     
-    [RequireComponent(typeof(GridLayoutGroup))]
     public class Board : MonoBehaviour
     {
         public List<PiecePosition> piecePosition = new List<PiecePosition>();
