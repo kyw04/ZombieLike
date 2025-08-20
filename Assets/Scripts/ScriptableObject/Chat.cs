@@ -9,6 +9,7 @@ namespace Dialogue
     {
         public List<GameObject> talker;
         public List<string> text;
+        public List<string> enumName;
         public List<int> enumValue;
     }
     

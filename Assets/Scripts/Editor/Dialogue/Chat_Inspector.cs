@@ -8,27 +8,26 @@ namespace Dialogue
     [CustomEditor(typeof(DialogueData))]
     public class Chat_Inspector : Editor
     {
-        private ReorderableList talkList;
+        private ReorderableList dialogueList;
         private Dictionary<int, ReorderableList> textLists = new Dictionary<int, ReorderableList>();
 
         private void OnEnable()
         {
-            // Talk 리스트 ReorderableList
-            talkList = new ReorderableList(serializedObject,
+            dialogueList = new ReorderableList(serializedObject,
                 serializedObject.FindProperty("talk"),
                 true, true, true, true);
 
             // Header 라벨
-            talkList.drawHeaderCallback = (rect) =>
+            dialogueList.drawHeaderCallback = (rect) =>
             {
                 EditorGUI.LabelField(rect, "Dialogue", EditorStyles.boldLabel);
             };
 
-            // 각 Talk element 그리기
-            talkList.drawElementCallback = (rect, index, active, focused) =>
+            dialogueList.drawElementCallback = (rect, index, active, focused) =>
             {
-                var element = talkList.serializedProperty.GetArrayElementAtIndex(index);
+                var element = dialogueList.serializedProperty.GetArrayElementAtIndex(index);
                 var talkerProp = element.FindPropertyRelative("talker");
+                var nameProp = element.FindPropertyRelative("enumName");
                 var textList = GetTextList(element, index);
 
                 var spacing = 4f;
@@ -42,6 +41,17 @@ namespace Dialogue
                 var talkerRect = new Rect(rect.x, indexRect.yMax + spacing, rect.width,
                     EditorGUI.GetPropertyHeight(talkerProp, true));
                 EditorGUI.PropertyField(talkerRect, talkerProp, new GUIContent("Talker"), true);
+                
+                // enum name 설정
+                nameProp.arraySize = talkerProp.arraySize;
+                for (int i = 0; i < talkerProp.arraySize; i++)
+                {
+                    string talkerName = $"Talker {i}";
+                    if (talkerProp.GetArrayElementAtIndex(i).objectReferenceValue != null)
+                        talkerName = talkerProp.GetArrayElementAtIndex(i).objectReferenceValue.name;
+
+                    nameProp.GetArrayElementAtIndex(i).stringValue = talkerName;
+                }
                 
                 // Text 리스트 (Foldout + ReorderableList)
                 if (textList.serializedProperty.isExpanded)
@@ -57,9 +67,9 @@ namespace Dialogue
                 }
             };
 
-            talkList.elementHeightCallback = (index) =>
+            dialogueList.elementHeightCallback = (index) =>
             {
-                var element = talkList.serializedProperty.GetArrayElementAtIndex(index);
+                var element = dialogueList.serializedProperty.GetArrayElementAtIndex(index);
                 var talkerProp = element.FindPropertyRelative("talker");
                 var textProp = element.FindPropertyRelative("text");
 
@@ -82,7 +92,7 @@ namespace Dialogue
         {
             if (textLists.ContainsKey(talkIndex)) return textLists[talkIndex];
 
-            var talkerProp = element.FindPropertyRelative("talker");
+            var nameProp = element.FindPropertyRelative("enumName");
             var textProp = element.FindPropertyRelative("text");
             var enumProp = element.FindPropertyRelative("enumValue");
             
@@ -100,15 +110,13 @@ namespace Dialogue
                 enumProp.arraySize = textProp.arraySize;
                 var textElement = textProp.GetArrayElementAtIndex(index);
                 var enumElement = enumProp.GetArrayElementAtIndex(index);
-                
-                string[] displayedOptions = new string[talkerProp.arraySize];
-                int[] optionValues = new int[talkerProp.arraySize];
-                for (int i = 0; i < talkerProp.arraySize; i++)
+
+                // enum 만들기
+                string[] displayedOptions = new string[nameProp.arraySize];
+                int[] optionValues = new int[nameProp.arraySize];
+                for (int i = 0; i < nameProp.arraySize; i++)
                 {
-                    string talkerName = $"Talker {i}";
-                    if (talkerProp.GetArrayElementAtIndex(i).objectReferenceValue != null)
-                        talkerName = talkerProp.GetArrayElementAtIndex(i).objectReferenceValue.name;
-                    displayedOptions[i] = talkerName;
+                    displayedOptions[i] = nameProp.GetArrayElementAtIndex(i).stringValue;
                     optionValues[i] = i;
                 }
                 
@@ -132,8 +140,9 @@ namespace Dialogue
 
         public override void OnInspectorGUI()
         {
+            base.OnInspectorGUI();
             serializedObject.Update();
-            talkList.DoLayoutList();
+            dialogueList.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
         }
     }

@@ -11,9 +11,9 @@ namespace Dialogue
         public List<DialogueData> dialogues;
         private int currentTextIndex;
 
-        public void Play()
+        public void Start()
         {
-            currentTextIndex = 0;
+            currentTextIndex = -1;
         }
 
         private void Close()
@@ -23,8 +23,18 @@ namespace Dialogue
         
         public void Next()
         {
-            nameBox.text = dialogues[0].talk[0].enumValue[currentTextIndex].ToString();
-            textBox.text = dialogues[0].talk[0].text[currentTextIndex++];
+            if (!TextEvent.instante.isPlayed)
+                currentTextIndex++;
+
+            if (dialogues[0].talk[0].text.Count <= currentTextIndex)
+            {
+                Debug.Log("끝났습니다.");
+                return;
+            }
+            
+            int index = dialogues[0].talk[0].enumValue[currentTextIndex];
+            nameBox.text = dialogues[0].talk[0].enumName[index];
+            TextEvent.instante.Play(textBox, dialogues[0].talk[0].text[currentTextIndex], 0.1f);
         }
         
     }
