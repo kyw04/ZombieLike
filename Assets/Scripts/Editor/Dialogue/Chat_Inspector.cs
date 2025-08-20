@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Dialogue
 {
-    [CustomEditor(typeof(Chat))]
+    [CustomEditor(typeof(DialogueData))]
     public class Chat_Inspector : Editor
     {
         private ReorderableList talkList;

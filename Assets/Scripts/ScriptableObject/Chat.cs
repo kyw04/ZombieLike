@@ -13,7 +13,7 @@ namespace Dialogue
     }
     
     [CreateAssetMenu(fileName = "Dialogue Data", menuName = "Scriptable Object/Dialogue Data")]
-    public class Chat : ScriptableObject
+    public class DialogueData : ScriptableObject
     {
         public List<Talk> talk;
     }
