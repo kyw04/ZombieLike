@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,18 +30,31 @@ namespace Dialogue
             if (!TextEvent.instante.isPlayed)
                 currentTextIndex++;
 
-            if (dialogues[0].talk[0].text.Count <= currentTextIndex)
+            int textCount;
+            try
+            {
+                textCount = dialogues[0].talk[0].text.Count;
+            }
+            catch (Exception e)
+            {
+                Debug.Log("버그 났어요");
+                nameBox.text = "3초 뒤에 종료.";
+                textBox.text = e.ToString();
+                Invoke(nameof(Close), 3f);
+                return;
+            }
+
+            if (textCount <= currentTextIndex)
             {
                 Debug.Log("끝났습니다.");
                 Close();
                 return;
             }
-            
+
             int index = dialogues[0].talk[0].enumValue[currentTextIndex];
             nameBox.text = dialogues[0].talk[0].enumName[index];
             TextEvent.instante.Play(textBox, dialogues[0].talk[0].text[currentTextIndex], 0.1f);
         }
-        
     }
 }
 
