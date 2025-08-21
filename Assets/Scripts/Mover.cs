@@ -28,7 +28,7 @@ public class Mover : MonoBehaviour
     {
         direction = moveAction.ReadValue<Vector2>();
     
-        if (Vector3.Distance(playerPosition, transform.position) <= moveSmooth + 0.02f)
+        if (Vector3.Distance(playerPosition, transform.position) <= moveSmooth + 0.01f)
         {
             transform.position = playerPosition;
 
