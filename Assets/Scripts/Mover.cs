@@ -44,14 +44,4 @@ public class Mover : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, direction * 1f);
     }
-
-    public void Horizontal(float value)
-    {
-        direction.x = value;
-    }
-
-    public void Vertical(float value)
-    {
-        direction.y = value;
-    }
 }
