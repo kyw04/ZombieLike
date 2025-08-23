@@ -7,7 +7,7 @@ namespace Dialogue
     [Serializable]
     public class Talk
     {
-        public List<GameObject> talker;
+        public List<TalkerData> talker;
         public List<string> text;
         public List<string> enumName;
         public List<int> enumValue;

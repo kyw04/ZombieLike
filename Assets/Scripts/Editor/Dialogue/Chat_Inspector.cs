@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -38,19 +39,22 @@ namespace Dialogue
                 EditorGUI.LabelField(indexRect, $"Dialogue {index}", EditorStyles.boldLabel);
 
                 // Talker 리스트
-                var talkerRect = new Rect(rect.x, indexRect.yMax + spacing, rect.width,
-                    EditorGUI.GetPropertyHeight(talkerProp, true));
+                var talkerRect = new Rect(rect.x, indexRect.yMax + spacing, rect.width, EditorGUI.GetPropertyHeight(talkerProp, true));
                 EditorGUI.PropertyField(talkerRect, talkerProp, new GUIContent("Talker"), true);
                 
                 // enum name 설정
                 nameProp.arraySize = talkerProp.arraySize;
                 for (int i = 0; i < talkerProp.arraySize; i++)
                 {
-                    string talkerName = $"Talker {i}";
-                    if (talkerProp.GetArrayElementAtIndex(i).objectReferenceValue != null)
-                        talkerName = talkerProp.GetArrayElementAtIndex(i).objectReferenceValue.name;
+                    var currentTalker = talkerProp.GetArrayElementAtIndex(i);
+                    var talkerObj = currentTalker.objectReferenceValue as TalkerData;
+                    string currentTalkerName = $"Talker {i}";
+                    if (talkerObj != null && talkerObj.talkerName.Replace(" ", string.Empty) != "")
+                    {
+                        currentTalkerName = talkerObj.talkerName;
+                    }
 
-                    nameProp.GetArrayElementAtIndex(i).stringValue = talkerName;
+                    nameProp.GetArrayElementAtIndex(i).stringValue = currentTalkerName;
                 }
                 
                 // Text 리스트 (Foldout + ReorderableList)

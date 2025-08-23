@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Dialogue:DialogueData
   talk:
   - talker:
-    - {fileID: 3955798165003538132, guid: aa021109bfeeb994488b7df84e995d0e, type: 3}
-    - {fileID: 0}
+    - {fileID: 11400000, guid: 060a10c9d74565848a400a508f141948, type: 2}
+    - {fileID: 11400000, guid: 9abf5c1ad5618f248b2f25feeaab8c88, type: 2}
     text:
     - "\uC5EC\uAE34 \uC5B4\uB514\uC8E0..?"
     - "\uC548\uB155\uD558\uC138\uC694.\n\uC800\uB294 \uC2B9\uBB34\uC6D0 OOO\uC785\uB2C8\uB2E4."
@@ -30,5 +30,5 @@ MonoBehaviour:
       \uC9DC\uC99D\uB098\uAC8C"
     enumName:
     - Player
-    - Talker 1
+    - "\uD14C\uC2A4\uD2B8"
     enumValue: 000000000100000001000000010000000100000001000000
