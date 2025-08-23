@@ -2651,6 +2651,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4638438192607285068, guid: 6382a38df879570409e12ac6ca711ab5, type: 3}
+      propertyPath: 'dialogues.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e9ab1ef4ed5ad834bb293d0939ab87cc, type: 2}
     - target: {fileID: 5219819340593070931, guid: 6382a38df879570409e12ac6ca711ab5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
