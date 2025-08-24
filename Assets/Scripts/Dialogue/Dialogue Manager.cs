@@ -50,9 +50,14 @@ namespace Dialogue
                 Close();
                 return;
             }
-
+            
             int index = dialogues[0].talk[0].enumValue[currentTextIndex];
-            nameBox.text = dialogues[0].talk[0].enumName[index];
+            nameBox.text = "???";
+            if (!dialogues[0].talk[0].talker[index].isHide)
+            {
+                nameBox.text = dialogues[0].talk[0].enumName[index];
+            }
+            
             TextEvent.instante.Play(textBox, dialogues[0].talk[0].text[currentTextIndex], 0.1f);
         }
     }
