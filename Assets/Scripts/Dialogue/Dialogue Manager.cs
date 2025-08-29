@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,12 +9,15 @@ namespace Dialogue
         public GameObject dialogue;
         public TextMeshProUGUI nameBox;
         public TextMeshProUGUI textBox;
+        
         private DialogueData dialogueData;
         private int currentTextIndex;
         private int currentTalkIndex;
+        public bool isPlayed { get; private set; }
 
         public void Play(DialogueData data)
         {
+            isPlayed = true;
             dialogueData = data;
             currentTextIndex = -1;
             currentTalkIndex = 0;
@@ -25,6 +27,7 @@ namespace Dialogue
 
         private void Close()
         {
+            isPlayed = false;
             dialogue.SetActive(false);
         }
         

@@ -19,6 +19,7 @@ public class Test : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        manager.Play(data);
+        if (!manager.isPlayed)
+            manager.Play(data);
     }
 }

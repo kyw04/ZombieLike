@@ -16,7 +16,6 @@ namespace Interaction
         private InputAction interactAction;
 
         private float currentHoldTime;
-        private bool isPlay; // interactable 인터페이스가 가지고 있는게 좋을듯?
         
         private void Awake()
         {
@@ -32,9 +31,8 @@ namespace Interaction
         private void StartIntercation()
         {
             float holdTime = currentInteract.GetHoldSeconds();
-            if (holdTime < currentHoldTime && !isPlay)
+            if (holdTime < currentHoldTime)
             {
-                isPlay = true;
                 currentInteract.Interact();
             }
             else
@@ -54,15 +52,10 @@ namespace Interaction
                     StartIntercation();
 
                 }
-                else
-                {
-                    isPlay = false;
-                }
                 
                 return currentInteract;
             }
 
-            isPlay = false;
             currentHoldTime = 0f;
             interactText.gameObject.SetActive(false);
             return null;
