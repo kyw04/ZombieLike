@@ -10,11 +10,12 @@ namespace Dialogue
         public GameObject dialogue;
         public TextMeshProUGUI nameBox;
         public TextMeshProUGUI textBox;
-        public List<DialogueData> dialogues;
+        private DialogueData dialogueData;
         private int currentTextIndex;
 
-        public void Play()
+        public void Play(DialogueData data)
         {
+            dialogueData = data;
             currentTextIndex = -1;
             dialogue.SetActive(true);
             Next();
@@ -33,7 +34,7 @@ namespace Dialogue
             int textCount;
             try
             {
-                textCount = dialogues[0].talk[0].text.Count;
+                textCount = dialogueData.talk[0].text.Count;
             }
             catch (Exception e)
             {
@@ -51,14 +52,14 @@ namespace Dialogue
                 return;
             }
             
-            int index = dialogues[0].talk[0].enumValue[currentTextIndex];
+            int index = dialogueData.talk[0].enumValue[currentTextIndex];
             nameBox.text = "???";
-            if (!dialogues[0].talk[0].talker[index].isHide)
+            if (!dialogueData.talk[0].talker[index].isHide)
             {
-                nameBox.text = dialogues[0].talk[0].enumName[index];
+                nameBox.text = dialogueData.talk[0].enumName[index];
             }
             
-            TextEvent.instante.Play(textBox, dialogues[0].talk[0].text[currentTextIndex], 0.1f);
+            TextEvent.instante.Play(textBox, dialogueData.talk[0].text[currentTextIndex], 0.1f);
         }
     }
 }

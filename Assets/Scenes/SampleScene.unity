@@ -644,7 +644,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 2
@@ -2582,6 +2582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2027e57b029323841bae6a7182c49700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 3553454998726153330}
+  data: {fileID: 11400000, guid: e9ab1ef4ed5ad834bb293d0939ab87cc, type: 2}
 --- !u!50 &1850759351
 Rigidbody2D:
   serializedVersion: 5

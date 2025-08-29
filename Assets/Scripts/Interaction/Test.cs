@@ -1,8 +1,12 @@
+using Dialogue;
 using Interaction;
 using UnityEngine;
 
 public class Test : MonoBehaviour, IInteractable
 {
+    public DialogueManager manager;
+    public DialogueData data;
+    
     public string GetInteractText()
     {
         return "12312";
@@ -15,6 +19,6 @@ public class Test : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("aSD");
+        manager.Play(data);
     }
 }
