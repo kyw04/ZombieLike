@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8718181115995749678}
   - component: {fileID: 2929771708097406990}
-  - component: {fileID: 1204026862188703386}
   m_Layer: 0
   m_Name: Physics
   m_TagString: Untagged
@@ -70,33 +69,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
---- !u!50 &1204026862188703386
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2619458984638251114}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!1 &3849001252952676224
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +167,7 @@ GameObject:
   - component: {fileID: 5381643689668593832}
   - component: {fileID: 8377625852599706268}
   - component: {fileID: 4131274130133213897}
+  - component: {fileID: 2797232463745934040}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -261,5 +234,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcbaa28c02ae2f4d8914c12fa05c188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forward: {x: 0, y: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 72
   playerPosition: {x: 0, y: 0, z: 0}
   moveSmooth: 0.05
+--- !u!114 &2797232463745934040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955798165003538132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734acf471e790654d86c35ae7d6dea66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: {fileID: 0}
+  target: {fileID: 4131274130133213897}
+  reach: 0.5
