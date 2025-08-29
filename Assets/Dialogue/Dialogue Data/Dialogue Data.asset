@@ -31,3 +31,15 @@ MonoBehaviour:
     - Player
     - "\uD14C\uC2A4\uD2B8"
     enumValue: 00000000010000000100000001000000010000000100000001000000
+  - talker:
+    - {fileID: 11400000, guid: 060a10c9d74565848a400a508f141948, type: 2}
+    - {fileID: 11400000, guid: 9abf5c1ad5618f248b2f25feeaab8c88, type: 2}
+    text:
+    - 11111111
+    - 222222222
+    - 333333333
+    - 444444444444
+    enumName:
+    - Player
+    - "\uD14C\uC2A4\uD2B8"
+    enumValue: 00000000010000000100000000000000
