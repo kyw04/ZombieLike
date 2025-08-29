@@ -9,14 +9,17 @@ namespace Dialogue
         public GameObject dialogue;
         public TextMeshProUGUI nameBox;
         public TextMeshProUGUI textBox;
-        
+        public bool isPlayed { get; private set; }
+
         private DialogueData dialogueData;
         private int currentTextIndex;
         private int currentTalkIndex;
-        public bool isPlayed { get; private set; }
 
         public void Play(DialogueData data)
         {
+            if (isPlayed)
+                return;
+            
             isPlayed = true;
             dialogueData = data;
             currentTextIndex = -1;
