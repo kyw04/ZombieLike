@@ -9,7 +9,7 @@ public class Test : MonoBehaviour, IInteractable
     
     public string GetInteractText()
     {
-        return "12312";
+        return "[E]";
     }
 
     public Vector2 GetTextPosition()
