@@ -51,36 +51,19 @@ Shader "Custom/Test"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // 중심 텍스처
-                fixed4 colCenter = UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(i.uv, _CenterIndex));
-
-                // 회전 변환
-                float rad = radians(_Rotation);
+                // 중심 텍스처 UV 축소
                 float2 center = float2(0.5, 0.5);
-                float2 uvRot = i.uv - center;
-                float cosR = cos(rad);
-                float sinR = sin(rad);
-                uvRot = float2(
-                    uvRot.x * cosR - uvRot.y * sinR,
-                    uvRot.x * sinR + uvRot.y * cosR
-                ) + center;
+                float2 uvCenter = (i.uv - center) * 1.5 + center; // 0.7은 축소 비율 (값이 작을수록 더 작게)
 
-                // 위아래 곡률 (세로 방향 휘어짐)
-                float curveY = sin((uvRot.y - 0.5) * 3.14159) * _CurveAmountY;
-                uvRot.x += curveY;
+                fixed4 colCenter = UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(uvCenter, _CenterIndex));
 
-                // 좌우 곡률 (가로 방향 휘어짐)
-                float curveX = sin((uvRot.x - 0.5) * 3.14159) * _CurveAmountX;
-                uvRot.y += curveX;
-
-                // 주변 텍스처 (곡률+회전 적용)
-                fixed4 colAround = UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(uvRot, _AroundIndex));
-
+                fixed4 colAround = UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(uvCenter, _AroundIndex));
                 // 주변이 위에 오도록 알파 블렌딩
                 fixed4 finalCol = lerp(colCenter, colAround, colAround.a);
 
                 return finalCol;
             }
+
             ENDCG
         }
     }
