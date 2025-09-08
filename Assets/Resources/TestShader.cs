@@ -5,7 +5,7 @@ public class TestShader : MonoBehaviour
 {
     public Material targetMaterial;
     public Texture2D[] sourceTextures;
-    [Range(0, 25)] public int layerIndex; // 인스펙터에서 선택
+    [Range(0, 25)] public float layerIndex; // 인스펙터에서 선택
 
     void Update()
     {
@@ -28,6 +28,7 @@ public class TestShader : MonoBehaviour
         }
 
         targetMaterial.SetTexture("_TexArray", texArray);
-        targetMaterial.SetInt("_LayerIndex", Mathf.Clamp(layerIndex, 0, sourceTextures.Length - 1));
+        targetMaterial.SetInt("_TexCount", sourceTextures.Length);
+        targetMaterial.SetFloat("_CenterIndex", layerIndex % sourceTextures.Length);
     }
 }

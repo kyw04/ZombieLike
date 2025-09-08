@@ -3,11 +3,8 @@ Shader "Custom/Test"
     Properties
     {
         _TexArray ("Texture Array", 2DArray) = "" {}
-        _CenterIndex ("Center Index", Int) = 0
-        _AroundIndex ("Around Index", Int) = 1
-        _Rotation ("Rotation (Degrees)", Float) = 0
-        _CurveAmountY ("Vertical Curve", Float) = 0.3
-        _CurveAmountX ("Horizontal Curve", Float) = 0.3
+        _TexCount ("Texture Array Count", int) = 0
+        _CenterIndex ("Center Index", Float) = 0   // float로 애니메이션
     }
     SubShader
     {
@@ -23,11 +20,8 @@ Shader "Custom/Test"
             #include "UnityCG.cginc"
 
             UNITY_DECLARE_TEX2DARRAY(_TexArray);
-            int _CenterIndex;
-            int _AroundIndex;
-            float _Rotation;
-            float _CurveAmountY;
-            float _CurveAmountX;
+            float _CenterIndex;
+            int _TexCount;
 
             struct appdata
             {
@@ -41,6 +35,13 @@ Shader "Custom/Test"
                 float4 vertex : SV_POSITION;
             };
 
+            fixed4 SetAlpha(float2 uv, int index)
+            {
+                if (uv.x >= 0.0 && uv.x <= 1.0 && uv.y >= 0.0 && uv.y <= 1.0)
+                    return UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(uv, index));
+                return fixed4(0, 0, 0, 0);
+            }
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -51,19 +52,24 @@ Shader "Custom/Test"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // 중심 텍스처 UV 축소
-                float2 center = float2(0.5, 0.5);
-                float2 uvCenter = (i.uv - center) * 1.5 + center; // 0.7은 축소 비율 (값이 작을수록 더 작게)
+                // 인덱스와 진행 비율
+                float baseIndex = floor(_CenterIndex);
+                float t = frac(_CenterIndex); // 0~1
 
-                fixed4 colCenter = UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(uvCenter, _CenterIndex));
+                // 현재, 다음 인덱스
+                int currIdx = (int)fmod(baseIndex, _TexCount);
+                int nextIdx = (int)fmod(baseIndex + 1, _TexCount);
 
-                fixed4 colAround = UNITY_SAMPLE_TEX2DARRAY(_TexArray, float3(uvCenter, _AroundIndex));
-                // 주변이 위에 오도록 알파 블렌딩
-                fixed4 finalCol = lerp(colCenter, colAround, colAround.a);
+                // UV 이동: 현재는 내려가고, 다음은 아래에서 올라옴
+                float2 uvCurr = i.uv + float2(0, -t);   // 위로 이동
+                float2 uvNext = i.uv + float2(0, 1.0 - t); // 아래에서 올라옴
 
-                return finalCol;
+                fixed4 colCurr = SetAlpha(uvCurr, currIdx);
+                fixed4 colNext = SetAlpha(uvNext, nextIdx);
+
+                // 알파 블렌딩 (겹치는 부분만)
+                return (colCurr.a > 0 ? colCurr : colNext);
             }
-
             ENDCG
         }
     }
