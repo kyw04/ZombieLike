@@ -16,6 +16,7 @@ namespace Interaction
         private InputAction interactAction;
 
         private float currentHoldTime;
+        private bool isStarted;
         
         private void Awake()
         {
@@ -31,8 +32,9 @@ namespace Interaction
         private void StartIntercation()
         {
             float holdTime = currentInteract.GetHoldSeconds();
-            if (holdTime < currentHoldTime)
+            if (!isStarted && holdTime < currentHoldTime)
             {
+                isStarted = true;
                 currentInteract.Interact();
             }
             else
@@ -50,12 +52,17 @@ namespace Interaction
                 if (interactAction.IsPressed())
                 {
                     StartIntercation();
-
+                }
+                else
+                {
+                    isStarted = false;
+                    currentHoldTime = 0f;
                 }
                 
                 return currentInteract;
             }
 
+            isStarted = false;
             currentHoldTime = 0f;
             interactText.gameObject.SetActive(false);
             return null;

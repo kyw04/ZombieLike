@@ -29,6 +29,5 @@ public class TestShader : MonoBehaviour
 
         targetMaterial.SetTexture("_TexArray", texArray);
         targetMaterial.SetInt("_TexCount", sourceTextures.Length);
-        targetMaterial.SetFloat("_CenterIndex", layerIndex % sourceTextures.Length);
     }
 }
