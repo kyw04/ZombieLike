@@ -54,15 +54,15 @@ Shader "Custom/Test"
             {
                 // 인덱스와 진행 비율
                 float baseIndex = floor(_CenterIndex);
-                float t = frac(_CenterIndex); // 0~1
+                float t = frac(_CenterIndex);
 
                 // 현재, 다음 인덱스
                 int currIdx = (int)fmod(baseIndex, _TexCount);
                 int nextIdx = (int)fmod(baseIndex + 1, _TexCount);
 
                 // UV 이동: 현재는 내려가고, 다음은 아래에서 올라옴
-                float2 uvCurr = i.uv + float2(0, -t);   // 위로 이동
-                float2 uvNext = i.uv + float2(0, 1.0 - t); // 아래에서 올라옴
+                float2 uvCurr = i.uv - float2(0, -t);   // 위로 이동
+                float2 uvNext = i.uv - float2(0, 1.0 - t); // 아래에서 올라옴
 
                 fixed4 colCurr = SetAlpha(uvCurr, currIdx);
                 fixed4 colNext = SetAlpha(uvNext, nextIdx);
