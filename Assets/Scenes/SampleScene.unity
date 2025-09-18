@@ -1754,14 +1754,14 @@ MonoBehaviour:
   isPlayed: 0
   placeCount: 0
   textures:
-  - {fileID: 2800000, guid: 1778f98018cc3ce48b0342146d1883a2, type: 3}
-  - {fileID: 2800000, guid: 8078ad85985b1a34d919c99338da18bc, type: 3}
   - {fileID: 2800000, guid: e4ef533f04b20bb469ca599f8af8b08a, type: 3}
   - {fileID: 2800000, guid: 43ef5e23486dbf44ab1d3702b2e225cb, type: 3}
   - {fileID: 2800000, guid: 077bc9c37ff09b64e83a73dbaf01bde5, type: 3}
   - {fileID: 2800000, guid: 83aeed8c2b806b04990ad3a5e4f0dc8f, type: 3}
   - {fileID: 2800000, guid: 89a0d6bd1c8b62546bd4943754f365c6, type: 3}
-  speed: 5
+  - {fileID: 2800000, guid: 1778f98018cc3ce48b0342146d1883a2, type: 3}
+  - {fileID: 2800000, guid: 8078ad85985b1a34d919c99338da18bc, type: 3}
+  speed: 10
 --- !u!50 &1075966734
 Rigidbody2D:
   serializedVersion: 5
