@@ -13,7 +13,11 @@ public class SlotMachineInteract : MonoBehaviour, IInteractable
     public int placeCount;
     
     public Texture2D[] textures;
-    public float speed;
+    public float speed = 10;
+    
+    [Space(10)]
+    public float breakSpeed = 3;
+    public float minDistance = 6;
     
     public string GetInteractText()
     {
@@ -76,26 +80,21 @@ public class SlotMachineInteract : MonoBehaviour, IInteractable
                 centerIndex = (centerIndex + Time.deltaTime * currentSpeed[i]) % textures.Length;
                 reels[i].material.SetFloat("_CenterIndex", centerIndex);
 
+                int distance = Mathf.Abs((int)centerIndex - placeIndex[i]);
+                distance = Mathf.Min(distance, Mathf.Abs((int)centerIndex + textures.Length - placeIndex[i]));
                 if (i < placeCount)
                 {
-                    if (currentSpeed[i] < 3.0f)
+                    if ((speed / 2.5f < currentSpeed[i] && distance <= minDistance) || (i != 0 && speed / 1.5f < currentSpeed[i - 1]))
                     {
-                        float min = Mathf.Abs(placeIndex[i] - (int)centerIndex);
-                        min = Mathf.Min(min, Mathf.Abs(placeIndex[i] - ((int)centerIndex + textures.Length)));
-                        currentSpeed[i] = speed * min / textures.Length;
-
-                        if (min == 0)
-                        {
-                            reels[i].material.SetFloat("_CenterIndex", placeIndex[i]);
-                        }
+                        currentSpeed[i] -= Time.deltaTime * breakSpeed;
                     }
-                    else if (0 < currentSpeed[i])
+                    else if (Mathf.Abs(placeIndex[i] - centerIndex) <= 0.01f && (i == 0 || currentSpeed[i - 1] == 0))
                     {
-                        currentSpeed[i] -= Time.deltaTime * speed * 0.5f;
-                    }
-                    else if (0 > currentSpeed[i])
-                    {
+                        if (i == reels.Length - 1)
+                            End();
+                        
                         currentSpeed[i] = 0;
+                        reels[i].material.SetFloat("_CenterIndex", placeIndex[i]);
                     }
                 }
             }
@@ -105,7 +104,10 @@ public class SlotMachineInteract : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (placeCount >= reels.Length)
+        {
             End();
+            return;
+        }
 
         if (isPlayed && placeCount < reels.Length)
         {
@@ -121,17 +123,25 @@ public class SlotMachineInteract : MonoBehaviour, IInteractable
                 max = correctCount[index];
                 maxIndex = index;
             }
-            // Debug.Log($"maxIndex: {maxIndex}, max: {max}");
+            Debug.Log($"idx: {index}, maxIdx: {maxIndex}, max: {max}");
             placeCount++;
         }
-        isPlayed = true;
-
+        else
+        {
+            for (int i = 0; i < reels.Length; i++)
+                currentSpeed[i] = speed;
+            
+            isPlayed = true;
+        }
     }
     
     private void End()
     {
         for (int i = 0; i < reels.Length; i++)
-            currentSpeed[i] = speed;
+        {
+            currentSpeed[i] = 0;
+            reels[i].material.SetFloat("_CenterIndex", placeIndex[i]);
+        }
         
         correctCount = new int[textures.Length];
         isPlayed = false;
