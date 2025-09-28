@@ -9,28 +9,60 @@ public class Mover : Entity
     private Vector3 velocity;
     [SerializeField] private LayerMask mask;
     [SerializeField] private Vector3 playerPosition;
-
     [SerializeField] private float moveSmooth = 0.05f;
+
+    private enum Axis
+    {
+        None,
+        Horizontal,
+        Vertical
+    };
+    private Axis lastAxis;
     
     private void Awake()
     {
         input = GetComponent<PlayerInput>();
         moveAction = input.actions["Move"];
         playerPosition = transform.position;
+        lastAxis = Axis.None;
     }
 
     private void FixedUpdate()
     {
-        Move();
+        HandleMove();
     }
 
-    private void Move()
+    private void HandleMove()
     {
-        direction = moveAction.ReadValue<Vector2>();
-        forward = direction != Vector3.zero ? direction : forward;
-        
-        if (Vector3.Distance(playerPosition, transform.position) <= moveSmooth + 0.01f)
+        Vector2 rawInput = moveAction.ReadValue<Vector2>();
+        if (rawInput == Vector2.zero)
         {
+            transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref velocity, moveSmooth);
+            return;
+        }
+        
+        direction = Vector3.zero;
+        if (rawInput.x != 0 && rawInput.y != 0)
+        {
+            direction = lastAxis == Axis.Vertical ? Vector3.right * Mathf.Sign(rawInput.x) 
+                                                    : Vector3.up * Mathf.Sign(rawInput.y);
+        }
+        else if (rawInput.x != 0)
+        {
+            direction = Vector3.right * Mathf.Sign(rawInput.x);
+            lastAxis = Axis.Horizontal;
+        }
+        else
+        {
+            direction = Vector3.up * Mathf.Sign(rawInput.y);
+            lastAxis = Axis.Vertical;
+        }
+        
+        forward = direction != Vector3.zero ? direction : forward;
+        if (Vector3.Distance(playerPosition, transform.position) <= moveSmooth + 0.05f)
+        {
+            
+            
             transform.position = playerPosition;
 
             if (!Physics2D.Raycast(transform.position, direction, 1f, mask))
