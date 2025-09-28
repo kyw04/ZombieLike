@@ -3,14 +3,6 @@ using UnityEngine.InputSystem;
 
 public class Mover : Entity
 {
-    private PlayerInput input;
-    private InputAction moveAction;
-    private Vector3 direction;
-    private Vector3 velocity;
-    [SerializeField] private LayerMask mask;
-    [SerializeField] private Vector3 playerPosition;
-    [SerializeField] private float moveSmooth = 0.05f;
-
     private enum Axis
     {
         None,
@@ -18,6 +10,16 @@ public class Mover : Entity
         Vertical
     };
     private Axis lastAxis;
+    private PlayerInput input;
+    private InputAction moveAction;
+    private Vector3 direction;
+    private Vector3 velocity;
+    private Vector3 playerPosition;
+    private float moveSmooth = 0.05f;
+
+    [SerializeField] private bool onSmoothMove = true;
+    [SerializeField] private LayerMask mask;
+    [SerializeField, Tooltip("이 수치가 낮아지면 플레이어 속도가 올라감")] private float speed = 1f;
     
     private void Awake()
     {
@@ -44,7 +46,7 @@ public class Mover : Entity
         direction = Vector3.zero;
         if (rawInput.x != 0 && rawInput.y != 0)
         {
-            direction = lastAxis == Axis.Vertical ? Vector3.right * Mathf.Sign(rawInput.x) 
+            direction = lastAxis == Axis.Vertical ? Vector3.right * Mathf.Sign(rawInput.x)
                                                     : Vector3.up * Mathf.Sign(rawInput.y);
         }
         else if (rawInput.x != 0)
@@ -61,15 +63,22 @@ public class Mover : Entity
         forward = direction != Vector3.zero ? direction : forward;
         if (Vector3.Distance(playerPosition, transform.position) <= moveSmooth + 0.05f)
         {
-            
-            
             transform.position = playerPosition;
 
             if (!Physics2D.Raycast(transform.position, direction, 1f, mask))
+            {
                 playerPosition = transform.position + direction;
+            }
+            else if (onSmoothMove && rawInput.x != 0 && rawInput.y != 0)
+            {
+                direction = lastAxis == Axis.Horizontal ? Vector3.right * Mathf.Sign(rawInput.x)
+                                                        : Vector3.up * Mathf.Sign(rawInput.y);
+                if (!Physics2D.Raycast(transform.position, direction, 1f, mask))
+                    playerPosition = transform.position + direction;
+            }
         }
 
-        transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref velocity, moveSmooth);
+        transform.position = Vector3.SmoothDamp(transform.position, playerPosition, ref velocity, moveSmooth * speed);
     }
 
     private void OnDrawGizmosSelected()
