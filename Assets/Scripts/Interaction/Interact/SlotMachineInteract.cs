@@ -101,7 +101,7 @@ public class SlotMachineInteract : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact()
+    public void Interact(Entity.EntityBase user)
     {
         if (placeCount >= reels.Length)
         {

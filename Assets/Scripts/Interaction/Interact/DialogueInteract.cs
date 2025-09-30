@@ -22,7 +22,7 @@ public class DialogueInteract : MonoBehaviour, IInteractable
         return transform.position + Vector3.up;
     }
 
-    public void Interact()
+    public void Interact(Entity.EntityBase user)
     {
         manager.Play(data);
     }

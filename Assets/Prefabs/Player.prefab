@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 8377625852599706268}
   - component: {fileID: 4131274130133213897}
   - component: {fileID: 2797232463745934040}
+  - component: {fileID: 5381584371248967079}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -235,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forward: {x: 0, y: 0}
+  inventory: {fileID: 5381584371248967079}
   onSmoothMove: 1
   mask:
     serializedVersion: 2
@@ -253,5 +255,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: {fileID: 0}
-  target: {fileID: 4131274130133213897}
+  user: {fileID: 4131274130133213897}
   reach: 0.5
+--- !u!114 &5381584371248967079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955798165003538132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a41798b925ef0498f20d6b94866c0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  inventoryUI: {fileID: 0}
+  player: {fileID: 3955798165003538132}

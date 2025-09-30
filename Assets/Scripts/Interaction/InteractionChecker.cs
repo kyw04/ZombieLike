@@ -1,4 +1,4 @@
-using System;
+using Entity;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
@@ -8,7 +8,7 @@ namespace Interaction
     public class InteractionChecker : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI interactText;
-        [SerializeField] private Entity target;
+        [SerializeField] private EntityBase user;
         [SerializeField] private float reach = 0.5f;
 
         private IInteractable currentInteract;
@@ -26,16 +26,16 @@ namespace Interaction
 
         public void FixedUpdate()
         {
-            Check(target.forward);
+            Check(user.forward);
         }
 
-        private void StartIntercation()
+        private void StartIntercation(EntityBase user)
         {
             float holdTime = currentInteract.GetHoldSeconds();
             if (!isStarted && holdTime < currentHoldTime)
             {
                 isStarted = true;
-                currentInteract.Interact();
+                currentInteract.Interact(user);
             }
             else
                 currentHoldTime += Time.deltaTime;
@@ -43,7 +43,7 @@ namespace Interaction
         
         public IInteractable Check(Vector2 look)
         {
-            RaycastHit2D hit = Physics2D.Raycast(target.transform.position, look, reach, LayerMask.GetMask("Interactable"));
+            RaycastHit2D hit = Physics2D.Raycast(user.transform.position, look, reach, LayerMask.GetMask("Interactable"));
             if (hit)
             {
                 currentInteract = hit.collider.GetComponent<IInteractable>();
@@ -51,7 +51,7 @@ namespace Interaction
 
                 if (interactAction.IsPressed())
                 {
-                    StartIntercation();
+                    StartIntercation(user);
                 }
                 else
                 {
