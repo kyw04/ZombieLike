@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Item;
-using Unity.VisualScripting;
 
 public class Inventory : MonoBehaviour
 {
@@ -24,14 +23,14 @@ public class Inventory : MonoBehaviour
     private PlayerInput input;
     private InputAction inventoryAction;
     private InputAction closeAction;
-    private HashSet<ItemInSlot> itemHash;
+    private Dictionary<ItemBase, List<int>> invenCheck;
     public List<ItemInSlot>  items;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject player;
     
     private void Awake()
     {
-        itemHash = new HashSet<ItemInSlot>();
+        invenCheck = new Dictionary<ItemBase, List<int>>();
         items = new List<ItemInSlot>();
         input = player.GetComponent<PlayerInput>();
         inventoryAction = input.actions["Inventory"];
@@ -41,9 +40,8 @@ public class Inventory : MonoBehaviour
     public void Push(ItemBase item, int count = 1)
     {
         var newItem = new ItemInSlot(item, count, items.Count);
-        if (itemHash.Add(newItem))
+        if (!invenCheck.Add(item, new List<int>(1, 1)))
         {
-            Debug.Log(itemHash.Comparer);
             items.Add(newItem);
         }
     }
