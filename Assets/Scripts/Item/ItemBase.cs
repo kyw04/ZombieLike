@@ -8,7 +8,7 @@ namespace Item
     [RequireComponent(typeof(SpriteRenderer))]
     public class ItemBase : MonoBehaviour, IInteractable
     {
-        private SpriteRenderer renderer;
+        private SpriteRenderer render;
 
         public readonly string id;
         public Sprite image;
@@ -19,8 +19,8 @@ namespace Item
 
         private void Awake()
         {
-            renderer = GetComponent<SpriteRenderer>();
-            renderer.sprite = image;
+            render = GetComponent<SpriteRenderer>();
+            GetComponent<SpriteRenderer>().sprite = image;
         }
 
         public string GetInteractText()
@@ -32,11 +32,11 @@ namespace Item
         {
             return transform.position + Vector3.up;
         }
-        
-        public override int GetHashCode()
-        {
-            return id.GetHashCode() ^ name.GetHashCode();
-        }
+
+        // public override int GetHashCode()
+        // {
+        //     return id.GetHashCode() ^ name.GetHashCode();
+        // }
 
         public void Interact(Entity.EntityBase user)
         {

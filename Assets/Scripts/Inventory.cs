@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
     private PlayerInput input;
     private InputAction inventoryAction;
     private InputAction closeAction;
-    private Dictionary<ItemBase, List<int>> invenCheck;
+    private Dictionary<ItemBase, List<int>> invenCheck; // <ItemBase, Slots>
     public List<ItemInSlot>  items;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject player;
@@ -39,9 +39,40 @@ public class Inventory : MonoBehaviour
 
     public void Push(ItemBase item, int count = 1)
     {
-        var newItem = new ItemInSlot(item, count, items.Count);
-        if (!invenCheck.Add(item, new List<int>(1, 1)))
+        if (invenCheck.TryGetValue(item, out var slotList))
         {
+            foreach (var slot in slotList)
+            {
+                var target = items[slot];
+                if (target.count < item.maxCount)
+                {
+                    target.count += count;
+                    if (item.maxCount < target.count)
+                    {
+                        count = target.count % item.maxCount;
+                        target.count = item.maxCount;
+                    }
+                    else
+                    {
+                        count = 0;
+                    }
+                }
+            }
+        }
+        
+        if (0 < count)
+        {
+            if (invenCheck.ContainsKey(item))
+            {
+                invenCheck[item].Add(items.Count);
+            }
+            else
+            {
+                Debug.Log("new");
+                invenCheck.Add(item, new List<int> {items.Count});
+            }
+            
+            ItemInSlot newItem = new ItemInSlot(item, count, items.Count);
             items.Add(newItem);
         }
     }
