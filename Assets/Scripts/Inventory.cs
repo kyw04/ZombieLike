@@ -79,7 +79,7 @@ public class Inventory : MonoBehaviour
     
     private void OnEnable()
     {
-        inventoryAction.performed += OnInventory;
+        inventoryAction.performed += InventoryOnOff;
         closeAction.performed += OnClose;
         
         inventoryAction.Enable();
@@ -88,14 +88,14 @@ public class Inventory : MonoBehaviour
 
     private void OnDisable()
     {
-        inventoryAction.performed -= OnInventory;
+        inventoryAction.performed -= InventoryOnOff;
         closeAction.performed -= OnClose;
     
         inventoryAction.Disable();
         closeAction.Disable();
     }
 
-    private void OnInventory(InputAction.CallbackContext context)
+    private void InventoryOnOff(InputAction.CallbackContext context)
     {
         inventoryUI.SetActive(!inventoryUI.activeSelf);
     }
