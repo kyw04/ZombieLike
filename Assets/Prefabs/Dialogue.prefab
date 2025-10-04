@@ -247,8 +247,6 @@ MonoBehaviour:
   dialogue: {fileID: 2082321443401153904}
   nameBox: {fileID: 9195464980565962148}
   textBox: {fileID: 5674949521130513229}
-  dialogues:
-  - {fileID: 11400000, guid: e9ab1ef4ed5ad834bb293d0939ab87cc, type: 2}
 --- !u!1 &2743730612971817641
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,8 +314,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB984"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 65f194f56e8d31a479770ea13b02c717, type: 2}
-  m_sharedMaterial: {fileID: 7078343047828959280, guid: 65f194f56e8d31a479770ea13b02c717, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 96b605f54100e1f47aa20ec4ca670a74, type: 2}
+  m_sharedMaterial: {fileID: 4191656770248117894, guid: 96b605f54100e1f47aa20ec4ca670a74, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -347,7 +345,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -773,8 +771,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uAC00\uB098\uB2E4\uB77C\uB9C8\uBC14\uC0AC\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 65f194f56e8d31a479770ea13b02c717, type: 2}
-  m_sharedMaterial: {fileID: 7078343047828959280, guid: 65f194f56e8d31a479770ea13b02c717, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 96b605f54100e1f47aa20ec4ca670a74, type: 2}
+  m_sharedMaterial: {fileID: 4191656770248117894, guid: 96b605f54100e1f47aa20ec4ca670a74, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -804,7 +802,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
