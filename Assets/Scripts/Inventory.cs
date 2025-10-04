@@ -32,13 +32,16 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        slotImage = inventoryUI.GetComponentsInChildren<Image>(true);
-        Debug.Log(slotImage.Length);
         checker = new Dictionary<ItemBase, List<int>>();
         items = new List<ItemInSlot>();
         input = player.GetComponent<PlayerInput>();
         inventoryAction = input.actions["Inventory"];
         closeAction = input.actions["Close"];
+    }
+
+    private void Start()
+    {
+        slotImage = inventoryUI.GetComponentsInChildren<Image>(true); // [0] is the inventory background image.
     }
 
     public void Push(ItemBase item, int count = 1)
@@ -76,10 +79,9 @@ public class Inventory : MonoBehaviour
                 checker.Add(item, new List<int> {items.Count});
             }
 
-            slotImage[items.Count].sprite = item.sprite;
-            
             ItemInSlot newItem = new ItemInSlot(item, count, items.Count);
             items.Add(newItem);
+            slotImage[items.Count].sprite = item.sprite;
         }
     }
     
