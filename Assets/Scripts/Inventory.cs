@@ -3,34 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Item;
+using UnityEngine.UI;
+
+public class ItemInSlot
+{
+    public ItemBase item;
+    public int count;
+    public int slot;
+
+    public ItemInSlot(ItemBase item, int count, int slot)
+    {
+        this.item = item;
+        this.count = count;
+        this.slot = slot;
+    }
+}
 
 public class Inventory : MonoBehaviour
 {
-    [Serializable]
-    public class ItemInSlot
-    {
-        public ItemBase item;
-        public int count;
-        public int slot;
-
-        public ItemInSlot(ItemBase item, int count, int slot)
-        {
-            this.item = item;
-            this.count = count;
-            this.slot = slot;
-        }
-    }
     private PlayerInput input;
     private InputAction inventoryAction;
     private InputAction closeAction;
-    private Dictionary<ItemBase, List<int>> invenCheck; // <ItemBase, Slots>
-    public List<ItemInSlot>  items;
+    private Image[] slotImage;
+    private Dictionary<ItemBase, List<int>> checker; // <ItemBase, Slots>
+    private List<ItemInSlot> items;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject player;
-    
+
     private void Awake()
     {
-        invenCheck = new Dictionary<ItemBase, List<int>>();
+        slotImage = inventoryUI.GetComponentsInChildren<Image>(true);
+        Debug.Log(slotImage.Length);
+        checker = new Dictionary<ItemBase, List<int>>();
         items = new List<ItemInSlot>();
         input = player.GetComponent<PlayerInput>();
         inventoryAction = input.actions["Inventory"];
@@ -39,7 +43,7 @@ public class Inventory : MonoBehaviour
 
     public void Push(ItemBase item, int count = 1)
     {
-        if (invenCheck.TryGetValue(item, out var slotList))
+        if (checker.TryGetValue(item, out var slotList))
         {
             foreach (var slot in slotList)
             {
@@ -62,15 +66,17 @@ public class Inventory : MonoBehaviour
         
         if (0 < count)
         {
-            if (invenCheck.ContainsKey(item))
+            if (checker.ContainsKey(item))
             {
-                invenCheck[item].Add(items.Count);
+                checker[item].Add(items.Count);
             }
             else
             {
                 Debug.Log("new");
-                invenCheck.Add(item, new List<int> {items.Count});
+                checker.Add(item, new List<int> {items.Count});
             }
+
+            slotImage[items.Count].sprite = item.sprite;
             
             ItemInSlot newItem = new ItemInSlot(item, count, items.Count);
             items.Add(newItem);

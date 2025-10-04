@@ -11,7 +11,7 @@ namespace Item
         private SpriteRenderer render;
 
         public readonly string id;
-        public Sprite image;
+        public Sprite sprite;
         [FormerlySerializedAs("name")] public string itemName;
         [TextArea] public string explanation;
         public int count;
@@ -20,7 +20,7 @@ namespace Item
         private void Awake()
         {
             render = GetComponent<SpriteRenderer>();
-            GetComponent<SpriteRenderer>().sprite = image;
+            GetComponent<SpriteRenderer>().sprite = sprite;
         }
 
         public string GetInteractText()
