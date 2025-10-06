@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Item;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ItemInSlot
@@ -24,6 +25,10 @@ public class Inventory : MonoBehaviour
     private PlayerInput input;
     private InputAction inventoryAction;
     private InputAction closeAction;
+    private EventSystem eventSystem;
+    private PointerEventData eventData;
+    private GraphicRaycaster raycaster;
+    
     private Image[] slotImage;
     private Dictionary<ItemBase, List<int>> checker; // <ItemBase, Slots>
     private List<ItemInSlot> items;
@@ -42,6 +47,19 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         slotImage = inventoryUI.GetComponentsInChildren<Image>(true); // [0] is the inventory background image.
+        raycaster = inventoryUI.GetComponentInParent<GraphicRaycaster>();
+        eventSystem = inventoryUI.GetComponentInParent<EventSystem>();
+        eventData = new PointerEventData(eventSystem);
+    }
+
+    private void Update()
+    {
+        eventData.position = Mouse.current.position.ReadValue();
+        List<RaycastResult> results = new List<RaycastResult>();
+        raycaster.Raycast(eventData, results);
+        
+        if (results.Count > 0)
+            Debug.Log(results[0]);
     }
 
     public void Push(ItemBase item, int count = 1)
@@ -83,6 +101,11 @@ public class Inventory : MonoBehaviour
             items.Add(newItem);
             slotImage[items.Count].sprite = item.sprite;
         }
+    }
+
+    private void Pop()
+    {
+        
     }
     
     private void OnEnable()
