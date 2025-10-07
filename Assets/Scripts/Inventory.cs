@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour
     private PointerEventData eventData;
     private GraphicRaycaster raycaster;
     
-    private Image[] slotImage;
+    private Slot[] slotSlots;
     private Dictionary<ItemBase, List<int>> checker; // <ItemBase, Slots>
     private List<ItemInSlot> items;
     [SerializeField] private GameObject inventoryUI;
@@ -46,7 +46,12 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        slotImage = inventoryUI.GetComponentsInChildren<Image>(true); // [0] is the inventory background image.
+        slotSlots = inventoryUI.GetComponentsInChildren<Slot>(true);
+        for (int i = 0; i < slotSlots.Length; i++)
+        {
+            slotSlots[i].index = i;
+        }
+        
         raycaster = inventoryUI.GetComponentInParent<GraphicRaycaster>();
         eventSystem = inventoryUI.GetComponentInParent<EventSystem>();
         eventData = new PointerEventData(eventSystem);
@@ -57,9 +62,11 @@ public class Inventory : MonoBehaviour
         eventData.position = Mouse.current.position.ReadValue();
         List<RaycastResult> results = new List<RaycastResult>();
         raycaster.Raycast(eventData, results);
-        
+
         if (results.Count > 0)
-            Debug.Log(results[0]);
+        {
+            Debug.Log(results[0].gameObject.transform.GetSiblingIndex());
+        }
     }
 
     public void Push(ItemBase item, int count = 1)
@@ -93,13 +100,12 @@ public class Inventory : MonoBehaviour
             }
             else
             {
-                Debug.Log("new");
                 checker.Add(item, new List<int> {items.Count});
             }
 
+            slotSlots[items.Count].ChangeItem(item);
             ItemInSlot newItem = new ItemInSlot(item, count, items.Count);
             items.Add(newItem);
-            slotImage[items.Count].sprite = item.sprite;
         }
     }
 
