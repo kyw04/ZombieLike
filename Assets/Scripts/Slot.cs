@@ -14,7 +14,7 @@ public class Slot : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    public void ChangeItem(ItemBase other)
+    public void SetItem(ItemBase other)
     {
         image.sprite = other.sprite;
         item = other;
@@ -24,9 +24,9 @@ public class Slot : MonoBehaviour
     {
         Slot temp = other;
 
-        other.ChangeItem(item);
+        other.SetItem(item);
         other.index = index;
-        ChangeItem(temp.item);
+        SetItem(temp.item);
         index = temp.index;
     }
 }
