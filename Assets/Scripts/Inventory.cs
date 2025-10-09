@@ -31,7 +31,7 @@ public class Inventory : ImageSelector<Slot>
     private List<ItemInSlot> items;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject player;
-
+    
     private void Awake()
     {
         checker = new Dictionary<ItemBase, List<int>>();
@@ -47,14 +47,15 @@ public class Inventory : ImageSelector<Slot>
         slotSlots = inventoryUI.GetComponentsInChildren<Slot>(true);
         for (int i = 0; i < slotSlots.Length; i++)
         {
-            slotSlots[i].index = i;
+            slotSlots[i].Init(i);
         }
     }
     
     private void Update()
     {
         Select();
-        Move();
+        if (onTarget && GetTarget().item != null)
+            Move();
     }
 
     public void Push(ItemBase item, int count = 1)
@@ -63,14 +64,14 @@ public class Inventory : ImageSelector<Slot>
         {
             foreach (var slot in slotList)
             {
-                var target = items[slot];
-                if (target.count < item.maxCount)
+                ItemInSlot itemInSlot = items[slot];
+                if (itemInSlot.count < item.maxCount)
                 {
-                    target.count += count;
-                    if (item.maxCount < target.count)
+                    itemInSlot.count += count;
+                    if (item.maxCount < itemInSlot.count)
                     {
-                        count = target.count % item.maxCount;
-                        target.count = item.maxCount;
+                        count = itemInSlot.count % item.maxCount;
+                        itemInSlot.count = item.maxCount;
                     }
                     else
                     {

@@ -9,9 +9,11 @@ public class Slot : MonoBehaviour
     public int index;
     public ItemBase item;
 
-    private void Start()
+    public void Init(int i)
     {
-        image = GetComponent<Image>();
+        image = GetComponentInChildren<Image>();
+        index = i;
+        item = null;
     }
 
     public void SetItem(ItemBase other)

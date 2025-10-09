@@ -15,7 +15,7 @@ public class ImageSelector<T> : MonoBehaviour
     private Image image;
     private Transform targetTransform;
     private Transform targetParent;
-    private bool onTarget;
+    protected bool onTarget { get; private set; }
     
     public GameObject targetCanvas;
     public Transform selected;
@@ -38,25 +38,15 @@ public class ImageSelector<T> : MonoBehaviour
             List<RaycastResult> results = new List<RaycastResult>();
             graphicRaycaster.Raycast(eventData, results);
 
-            Debug.Log(!onTarget);
-            Debug.Log(0 < results.Count);
-            Debug.Log(results[0].gameObject.name);
-            Debug.Log((results[0].gameObject.transform.GetComponent<T>() != null ||
-                       results[0].gameObject.transform.GetComponentInParent<T>() != null));
             if (!onTarget && 0 < results.Count &&
                 (results[0].gameObject.transform.GetComponent<T>() != null ||
                  results[0].gameObject.transform.GetComponentInParent<T>() != null))
             {
                 onTarget = true;
                 GameObject temp = results[0].gameObject;
-                image = temp.GetComponent<Image>();
-                if (image == null)
-                {
-                    image = temp.GetComponentInChildren<Image>();
-                }
+                target = temp.GetComponent<T>() ?? temp.GetComponentInParent<T>();
+                image = temp.GetComponent<Image>() ?? temp.GetComponentInChildren<Image>();
                 targetTransform = image.transform;
-
-                target = temp.GetComponent<T>();
                 targetParent = targetTransform.parent;
                 targetTransform.SetParent(selected);
             }

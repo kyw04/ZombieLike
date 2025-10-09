@@ -40,7 +40,7 @@ namespace Item
 
         public void Interact(Entity.EntityBase user)
         {
-            user.GetComponent<Inventory>().Push(this, count);
+            user.inventory.Push(this, count);
         }
     }
 }
