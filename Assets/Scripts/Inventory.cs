@@ -53,9 +53,15 @@ public class Inventory : ImageSelector<Slot>
     
     private void Update()
     {
-        Select();
-        if (onTarget && GetTarget().item != null)
+        if (onTarget && target.item != null)
+        {
+            if (1 <= behindTargets.Count && !Mouse.current.leftButton.isPressed)
+            {
+                target.ChangeSlot(behindTargets[0]);
+            }
             Move();
+        }
+        Select();
     }
 
     public void Push(ItemBase item, int count = 1)

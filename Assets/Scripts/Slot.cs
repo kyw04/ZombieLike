@@ -18,17 +18,14 @@ public class Slot : MonoBehaviour
 
     public void SetItem(ItemBase other)
     {
-        image.sprite = other.sprite;
+        image.sprite = other != null ? other.sprite : default;
         item = other;
     }
 
     public void ChangeSlot(Slot other)
     {
-        Slot temp = other;
-
+        ItemBase itm = other.item;
         other.SetItem(item);
-        other.index = index;
-        SetItem(temp.item);
-        index = temp.index;
+        SetItem(itm);
     }
 }
