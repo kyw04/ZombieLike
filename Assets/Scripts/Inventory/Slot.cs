@@ -18,7 +18,7 @@ public class Slot : MonoBehaviour
 
     public void SetItem(ItemBase other)
     {
-        image.sprite = other != null ? other.sprite : default;
+        image.sprite = other != null ? other.icon : default;
         item = other;
     }
 
