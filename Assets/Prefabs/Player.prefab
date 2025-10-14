@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 8377625852599706268}
   - component: {fileID: 4131274130133213897}
   - component: {fileID: 2797232463745934040}
+  - component: {fileID: 8272916252806409809}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forward: {x: 0, y: 0}
+  inventory: {fileID: 0}
   onSmoothMove: 1
   mask:
     serializedVersion: 2
@@ -258,3 +260,19 @@ MonoBehaviour:
   interactText: {fileID: 0}
   user: {fileID: 4131274130133213897}
   reach: 0.5
+--- !u!114 &8272916252806409809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955798165003538132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8c93566c66f5044b48beca311b8256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIToggle
+  targetUI: {fileID: 0}
+  inputActionName: Inventory
+  pauseGameWhenOpen: 1
+  toggleCooldown: 0.1
