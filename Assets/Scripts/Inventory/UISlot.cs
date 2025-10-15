@@ -11,13 +11,13 @@ public class UISlot : MonoBehaviour
     {
         if (item == null)
         {
-            icon.enabled = false;
+            icon.sprite = default;
             countText.text = "";
         }
         else
         {
-            icon.enabled = true;
             icon.sprite = item.icon;
+            Debug.Log("set icon");
             countText.text = count > 1 ? count.ToString() : "";
         }
     }

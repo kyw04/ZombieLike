@@ -5,26 +5,34 @@ using Item;
 [System.Serializable]
 public class InventorySlot
 {
+    public UISlot ui;
     public ItemBase item;
     public int count;
 
-    public InventorySlot(ItemBase item, int count)
+    public InventorySlot(UISlot ui, ItemBase item, int count)
     {
+        this.ui = ui;
         this.item = item;
         this.count = count;
     }
 
+    public void Set(ItemBase target, int amount = 0)
+    {
+        item = target;
+        count = amount;
+        ui.SetSlot(item, count);
+    }
+    
     public void Add(int amount)
     {
-        count += amount;
-        if (count > item.maxCount)
-            count = item.maxCount;
+        int total = count + amount;
+        Set(item, total <= item.maxCount ? total : item.maxCount);
     }
 
     public void Remove(int amount)
     {
-        count -= amount;
-        if (count < 0) count = 0;
+        int total = count - amount;
+        Set(item, total < 0 ? 0 : total);
     }
 
     public bool IsEmpty => item == null || count <= 0;
@@ -33,14 +41,18 @@ public class InventorySlot
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private int capacity = 20;
-    public List<InventorySlot> slots = new List<InventorySlot>();
+    [SerializeField] private int capacity;
+    public List<InventorySlot> slots;
 
     private void Awake()
     {
+        var ui = GetComponentsInChildren<UISlot>(true);
+        capacity = ui.Length;
+        slots = new List<InventorySlot>();
         for (int i = 0; i < capacity; i++)
         {
-            slots.Add(new InventorySlot(null, 0));
+            ui[i].SetSlot(null, 0);
+            slots.Add(new InventorySlot(ui[i], null, 0));
         }
     }
 
@@ -62,8 +74,7 @@ public class Inventory : MonoBehaviour
         {
             if (slot.IsEmpty)
             {
-                slot.item = item;
-                slot.count = count;
+                slot.Set(item, count);
                 return true;
             }
         }
