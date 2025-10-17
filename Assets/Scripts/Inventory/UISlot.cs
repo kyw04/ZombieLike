@@ -1,24 +1,49 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Item;
 
 public class UISlot : MonoBehaviour
 {
     [SerializeField] private Image icon;
-    [SerializeField] private TMPro.TextMeshProUGUI countText;
+    [SerializeField] private Sprite dragIcon;
+    [SerializeField] private TextMeshProUGUI countText;
+    [SerializeField] private Transform dragField;
 
-    public void SetSlot(ItemBase item, int count)
+    public Image GetImage() => icon;
+
+    public void Set(InventorySlot slot)
     {
-        if (item == null)
+        if (slot == null || slot.IsEmpty)
         {
-            icon.sprite = default;
-            countText.text = "";
+            ClearVisual();
+            return;
+        }
+
+        icon.color = Color.white;
+        icon.sprite = slot.item.icon;
+        countText.text = slot.count > 1 ? slot.count.ToString() : "";
+    }
+
+    public void ClearVisual()
+    {
+        icon.color = Color.clear;
+        countText.text = "";
+    }
+
+    public void SetDraggedVisual(bool isDragged)
+    {
+        if (isDragged)
+        {
+            icon.transform.SetParent(dragField);
+            icon.rectTransform.localScale *= 1.25f;
         }
         else
         {
-            icon.sprite = item.icon;
-            Debug.Log("set icon");
-            countText.text = count > 1 ? count.ToString() : "";
+            icon.transform.SetParent(transform);
+            icon.rectTransform.localScale = transform.localScale;
+            icon.rectTransform.localPosition = Vector2.zero;
         }
     }
 }

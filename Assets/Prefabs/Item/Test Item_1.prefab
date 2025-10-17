@@ -150,8 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0debc5c97ad932f49b2e786c774efc9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e4ef533f04b20bb469ca599f8af8b08a, type: 3}
+  icon: {fileID: 21300000, guid: e4ef533f04b20bb469ca599f8af8b08a, type: 3}
   itemName: item_test_one
   explanation: Test Item
   count: 1
   maxCount: 999
+  isStackable: 0

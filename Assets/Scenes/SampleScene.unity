@@ -3141,6 +3141,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &2006988151 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1107465061972359964, guid: 32f0c6ac0193d2c4ea2afe0dd49107b1, type: 3}
+  m_PrefabInstance: {fileID: 2080335915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2015788020
 GameObject:
   m_ObjectHideFlags: 0
@@ -3493,6 +3498,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -100
       objectReference: {fileID: 0}
+    - target: {fileID: 1335746613799852874, guid: 32f0c6ac0193d2c4ea2afe0dd49107b1, type: 3}
+      propertyPath: dragField
+      value: 
+      objectReference: {fileID: 2006988151}
     - target: {fileID: 1533187516981469189, guid: 32f0c6ac0193d2c4ea2afe0dd49107b1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

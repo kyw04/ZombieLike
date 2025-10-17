@@ -1,13 +1,20 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-interface IDragable
+public interface IDraggable
 {
-    GameObject target { get; }
-    
+    int SourceIndex { get; }
+    Image GetIcon();
+    void OnDragStarted();
+    void OnDragEnded(bool dropped);
+}
+
+public interface IDropTarget
+{
+    int TargetIndex { get; }
+    bool CanReceive(int sourceIndex);
+    void ReceiveDrop(int sourceIndex);
 }
 
 [RequireComponent(typeof(GraphicRaycaster))]
@@ -17,8 +24,6 @@ public class DragManager : MonoBehaviour
     private EventSystem eventSystem;
     private PointerEventData eventData;
 
-    private IDragable selected;
-    
     private void Awake()
     {
         raycaster = GetComponent<GraphicRaycaster>();
@@ -26,11 +31,5 @@ public class DragManager : MonoBehaviour
         eventData = new PointerEventData(eventSystem);
     }
 
-    private void Update()
-    {
-        if (Mouse.current.leftButton.isPressed && selected != null)
-        {
-            
-        }
-    }
+    
 }

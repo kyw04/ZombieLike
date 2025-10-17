@@ -8,19 +8,20 @@ public class InventorySlot
     public UISlot ui;
     public ItemBase item;
     public int count;
+    
+    public bool IsEmpty => item == null || count <= 0;
 
     public InventorySlot(UISlot ui, ItemBase item, int count)
     {
         this.ui = ui;
-        this.item = item;
-        this.count = count;
+        Set(item, count);
     }
 
-    public void Set(ItemBase target, int amount = 0)
+    public void Set(ItemBase target, int amount)
     {
         item = target;
         count = amount;
-        ui.SetSlot(item, count);
+        ui.Set(this);
     }
     
     public void Add(int amount)
@@ -34,25 +35,24 @@ public class InventorySlot
         int total = count - amount;
         Set(item, total < 0 ? 0 : total);
     }
-
-    public bool IsEmpty => item == null || count <= 0;
 }
 
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private int capacity;
+    private int capacity;
     public List<InventorySlot> slots;
 
-    private void Awake()
+    private void Start()
     {
         var ui = GetComponentsInChildren<UISlot>(true);
+        var slotController = GetComponentsInChildren<SlotController>(true);
         capacity = ui.Length;
         slots = new List<InventorySlot>();
         for (int i = 0; i < capacity; i++)
         {
-            ui[i].SetSlot(null, 0);
             slots.Add(new InventorySlot(ui[i], null, 0));
+            slotController[i].slotIndex = i;
         }
     }
 
@@ -98,5 +98,16 @@ public class Inventory : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public bool CanMoveTo(int sourceIndex, int targetIndex)
+    {
+        return slots[sourceIndex] != null && !slots[sourceIndex].IsEmpty
+            && slots[targetIndex] != null;
+    }
+
+    public void Transfer(int sourceIndex, int targetIndex)
+    { 
+        
     }
 }
