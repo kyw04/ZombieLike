@@ -39,10 +39,11 @@ public class SlotController : MonoBehaviour, IDraggable, IDropTarget,
     public void OnEndDrag(PointerEventData eventData)
     {
         OnDragEnded(false);
+
+        RaycastResult result = eventData.pointerCurrentRaycast;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop");
     }
 }
