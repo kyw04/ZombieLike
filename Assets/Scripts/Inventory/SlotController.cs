@@ -47,12 +47,11 @@ public class SlotController : MonoBehaviour, IDraggable, IDropTarget,
 
         List<RaycastResult> results = new List<RaycastResult>();
         raycaster.Raycast(eventData, results);
-
         
         foreach (var result in results)
         {
             int index = result.gameObject.GetComponentInParent<SlotController>().slotIndex;
-            if (index != slotIndex)
+            if (CanReceive(index) && index != slotIndex)
             {
                 ReceiveDrop(index);
                 break;

@@ -113,8 +113,8 @@ public class Inventory : MonoBehaviour
 
     public bool CanMoveTo(int sourceIndex, int targetIndex)
     {
-        return slots[sourceIndex] != null && !slots[sourceIndex].IsEmpty
-            && slots[targetIndex] != null;
+        return slots[targetIndex] != null && !slots[targetIndex].IsEmpty
+                && slots[sourceIndex] != null;
     }
 
     public void Transfer(int sourceIndex, int targetIndex)
