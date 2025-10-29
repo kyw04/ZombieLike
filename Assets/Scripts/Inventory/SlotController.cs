@@ -1,20 +1,25 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(UISlot))]
 public class SlotController : MonoBehaviour, IDraggable, IDropTarget,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public int slotIndex;
-    public UISlot ui;
+    private UISlot ui;
     private Inventory inventory;
+
+    private GraphicRaycaster raycaster;
 
     private void Awake()
     {
         ui = GetComponent<UISlot>();
         inventory = GetComponentInParent<Inventory>(true); 
+    
+        raycaster = inventory.GetComponentInChildren<GraphicRaycaster>();
     }
 
     public int SourceIndex => slotIndex;
@@ -40,10 +45,18 @@ public class SlotController : MonoBehaviour, IDraggable, IDropTarget,
     {
         OnDragEnded(false);
 
-        RaycastResult result = eventData.pointerCurrentRaycast;
-    }
+        List<RaycastResult> results = new List<RaycastResult>();
+        raycaster.Raycast(eventData, results);
 
-    public void OnDrop(PointerEventData eventData)
-    {
+        
+        foreach (var result in results)
+        {
+            int index = result.gameObject.GetComponentInParent<SlotController>().slotIndex;
+            if (index != slotIndex)
+            {
+                ReceiveDrop(index);
+                break;
+            }
+        }
     }
 }

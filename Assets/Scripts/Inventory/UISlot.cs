@@ -7,7 +7,6 @@ using Item;
 public class UISlot : MonoBehaviour
 {
     [SerializeField] private Image icon;
-    [SerializeField] private Sprite dragIcon;
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private Transform dragField;
 
@@ -26,7 +25,7 @@ public class UISlot : MonoBehaviour
         countText.text = slot.count > 1 ? slot.count.ToString() : "";
     }
 
-    public void ClearVisual()
+    private void ClearVisual()
     {
         icon.color = Color.clear;
         countText.text = "";

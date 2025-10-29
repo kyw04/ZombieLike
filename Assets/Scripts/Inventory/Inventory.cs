@@ -17,11 +17,22 @@ public class InventorySlot
         Set(item, count);
     }
 
+    public InventorySlot(InventorySlot other)
+    {
+        ui = other.ui;
+        Set(other.item, other.count);
+    }
+
     public void Set(ItemBase target, int amount)
     {
         item = target;
         count = amount;
         ui.Set(this);
+    }
+
+    public void Set(InventorySlot other)
+    {
+        Set(other.item, other.count);
     }
     
     public void Add(int amount)
@@ -107,7 +118,9 @@ public class Inventory : MonoBehaviour
     }
 
     public void Transfer(int sourceIndex, int targetIndex)
-    { 
-        
+    {
+        InventorySlot temp = new InventorySlot(slots[sourceIndex]);
+        slots[sourceIndex].Set(slots[targetIndex]);
+        slots[targetIndex].Set(temp);
     }
 }
