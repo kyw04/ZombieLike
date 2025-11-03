@@ -1,27 +1,20 @@
 using System;
 using Interaction;
+using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Item
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ItemBase : MonoBehaviour, IInteractable
+    public class ItemDisplay : MonoBehaviour, IInteractable
     {
         private SpriteRenderer render;
-
-        public readonly string id;
-        public Sprite icon;
-        [FormerlySerializedAs("name")] public string itemName;
-        [TextArea] public string explanation;
-        public int count;
-        public int maxCount;
-        public bool isStackable;
+        [NotNull] public ItemBase itemBase;
 
         private void Awake()
         {
             render = GetComponent<SpriteRenderer>();
-            GetComponent<SpriteRenderer>().sprite = icon;
+            GetComponent<SpriteRenderer>().sprite = itemBase.icon;
         }
 
         public string GetInteractText()
@@ -36,7 +29,8 @@ namespace Item
         
         public void Interact(Entity.EntityBase user)
         {
-            user.inventory.AddItem(this, count);
+            user.inventory.AddItem(itemBase, itemBase.count);
+            Destroy(this.gameObject); // change destroy system
         }
     }
 }
